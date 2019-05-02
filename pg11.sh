@@ -43,6 +43,17 @@ build() {
 	popd
 }
 
+run() {
+	pushd $PG_ROOT
+	mkdir -p data
+	install/bin/initdb -D ./data
+	install/bin/pg_ctl -D ./data -l logfile start
+	install/bin/pg_ctl -D ./data status
+	echo "stopping server"
+	install/bin/pg_ctl -D ./data stop
+	popd
+}
+
 package() {
 	pushd $INSTALL_DIR
 	mkdir -p $DIST_DIR
@@ -54,6 +65,7 @@ package() {
 main() {
 	downloadSourceCode
 	build
+	run
 	package
 }
 

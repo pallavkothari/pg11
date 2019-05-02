@@ -45,9 +45,9 @@ build() {
 
 run() {
 	pushd $PG_ROOT
-	mkdir -p data
+	rm -rf data && mkdir -p data
 	install/bin/initdb -D ./data
-	install/bin/pg_ctl -D ./data -l logfile start
+	install/bin/pg_ctl -D ./data -l logfile -o "-p 5432 -F -c timezone=UTC -c synchronous_commit=off -c max_connections=300" start
 	install/bin/pg_ctl -D ./data status
 	echo "stopping server"
 	install/bin/pg_ctl -D ./data stop

@@ -45,12 +45,8 @@ build() {
 
 package() {
 	pushd $INSTALL_DIR
-	tar cJF $DIST_DIR/$PACKAGE_NAME \
-	  share/postgresql \
-	  lib \
-	  bin/initdb \
-	  bin/pg_ctl \
-	  bin/postgres
+	mkdir -p $DIST_DIR
+	tar -cJf $DIST_DIR/$PACKAGE_NAME bin include lib share
 	echo "created postgres 11 binary at $DIST_DIR"
 	popd
 }
